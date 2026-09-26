@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>InventTrack - Inventory Management</title>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <aside class="sidebar">
+
+            <h2>
+                <i class="fa-solid fa-boxes-stacked"></i>
+                InventTrack
+            </h2>
+
+            <div class="menu active" onclick="showPage('dashboard', this)">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </div>
+
+            <div class="menu" onclick="showPage('items', this)">
+                <i class="fa-solid fa-box"></i>
+                Items
+            </div>
+
+            <div class="menu" onclick="showPage('reports', this)">
+                <i class="fa-solid fa-chart-column"></i>
+                Reports
+            </div>
+
+            <div class="menu" onclick="showPage('settings', this)">
+                <i class="fa-solid fa-gear"></i>
+                Settings
+            </div>
+
+        </aside>
+
+        <main class="main">
+
+            <div class="top">
+
+                <div>
+                    <h1>Inventory Dashboard</h1>
+                    <p class="today">Manage your inventory easily</p>
+                </div>
+
+                <div class="admin">
+                    <i class="fa-solid fa-circle-user"></i>
+                    Admin
+                </div>
+
+            </div>
+
+            <section id="dashboard" class="page">
+
+                <div class="cards">
+
+                    <div class="card blue">
+                        <p>TOTAL ITEMS</p>
+                        <h2 id="totalItems">0</h2>
+                    </div>
+
+                    <div class="card green">
+                        <p>STOCK VALUE</p>
+                        <h2 id="stockValue">₹0</h2>
+                    </div>
+
+                    <div class="card orange">
+                        <p>LOW STOCK</p>
+                        <h2 id="lowStock">0 items</h2>
+                    </div>
+
+                </div>
+                <div class="dashboard-box">
+
+                    <div class="section-title">
+                        <h2>Inventory Overview</h2>
+                        <p>Current stock levels</p>
+                    </div>
+                    <div id="dashboardItems"></div>
+                </div>
+            </section>
+            <section id="items" class="page hide">
+
+                <div class="page-title">
+
+                    <div>
+                        <h2>Items Management</h2>
+                        <p>Add, edit, search and manage your inventory.</p>
+                    </div>
+                    <button onclick="openForm()">
+                        <i class="fa-solid fa-plus"></i>
+                        Add New Item
+                    </button>
+
+                </div>
+                <div class="inventory-box">
+                    <div class="tools">
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Search items..."
+                            oninput="searchItems()"
+                        >
+                        <select id="filterSelect" onchange="displayItems()">
+                            <option value="all">All Items</option>
+                            <option value="stock">In Stock</option>
+                            <option value="low">Low Stock</option>
+                        </select>
+
+                        <select id="sortSelect" onchange="displayItems()">
+                            <option value="name">Sort by Name</option>
+                            <option value="quantity">Sort by Quantity</option>
+                            <option value="price">Sort by Price</option>
+                        </select>
+                    </div>
+                    <div id="itemsList"></div>
+                </div>
+            </section>
+            <section id="reports" class="page hide">
+
+                <div class="page-title">
+
+                    <div>
+                        <h2>Inventory Reports</h2>
+                        <p>View your current inventory information.</p>
+                    </div>
+
+                    <button onclick="generateReport()">
+                        Generate Report
+                    </button>
+
+                </div>
+
+                <div class="report-box" id="reportContent">
+                </div>
+
+            </section>
+            <section id="settings" class="page hide">
+
+                <div class="page-title">
+                    <div>
+                        <h2>Settings</h2>
+                        <p>Manage your inventory data.</p>
+                    </div>
+                </div>
+                <div class="settings-box">
+                    <h3>Inventory Data</h3>
+                    <p>
+                        Export your inventory, import saved data,
+                        or reset everything.
+                    </p>
+                    <div class="settings-buttons">
+                        <button onclick="exportData()">
+                            Export Data
+                        </button>
+                        <label class="import-button">
+                            Import Data
+                            <input
+                                type="file"
+                                id="importFile"
+                                accept=".json"
+                                onchange="importData(event)"
+                            >
+                        </label>
+                        <button
+                            class="danger"
+                            onclick="resetData()">
+                            Reset Data
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <div id="formBox" class="form-background">
+        <div class="form">
+            <div class="form-header">
+                <h2 id="formTitle">
+                    Add New Item
+                </h2>
+                <button
+                    class="close-button"
+                    onclick="closeForm()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <label for="itemName">
+                Item Name
+            </label>
+            <input
+                type="text"
+                id="itemName"
+                placeholder="Enter item name"
+            >
+            <label for="itemCategory">
+                Category
+            </label>
+            <input
+                type="text"
+                id="itemCategory"
+                placeholder="Enter category"
+            >
+            <label for="itemQuantity">
+                Quantity
+            </label>
+            <input
+                type="number"
+                id="itemQuantity"
+                min="0"
+                placeholder="Enter quantity"
+            >
+            <label for="itemPrice">
+                Price
+            </label>
+            <input
+                type="number"
+                id="itemPrice"
+                min="0"
+                placeholder="Enter price"
+            >
+            <div class="form-buttons">
+                <button
+                    class="cancel"
+                    onclick="closeForm()">
+                    Cancel
+                </button>
+                <button onclick="saveItem()">
+                    Save Item
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
