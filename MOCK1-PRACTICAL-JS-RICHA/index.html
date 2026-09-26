@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budget Tracker System</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="./Assets/fevicon icon/1462406.png" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Money Management Dashboard</p>
+          <h1>Budget Tracker System</h1>
+        </div>
+      </header>
+
+      <section class="summary-grid" aria-label="Budget summary">
+        <article class="summary-card highlight">
+          <span class="label">Total spent</span>
+          <strong id="totalSpent">₹0.00</strong>
+        </article>
+        <article class="summary-card">
+          <span class="label">This month</span>
+          <strong id="monthlySpent">₹0.00</strong>
+        </article>
+        <article class="summary-card">
+          <span class="label">Largest expense</span>
+          <strong id="largestExpense">₹0.00</strong>
+        </article>
+        <article class="summary-card">
+          <span class="label">Transactions</span>
+          <strong id="transactionCount">0</strong>
+        </article>
+      </section>
+
+      <main class="content-grid">
+        <section class="panel form-panel">
+          <div class="panel-header">
+            <h2 id="formTitle">Add Expense</h2>
+          </div>
+
+          <form id="expenseForm" novalidate>
+            <input type="hidden" id="expenseId" />
+
+            <div class="field-group">
+              <label for="expenseDate">Date</label>
+              <input id="expenseDate" name="date" type="date" required />
+            </div>
+
+            <div class="field-group">
+              <label for="expenseCategory">Category</label>
+              <select id="expenseCategory" name="category" required>
+                <option value="Food">Food</option>
+                <option value="Transport">Transport</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Bills">Bills</option>
+                <option value="Health">Health</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Travel">Travel</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="expenseDescription">Description</label>
+              <input id="expenseDescription" name="description" type="text" placeholder="Groceries, rent, fuel..." maxlength="80" required />
+            </div>
+
+            <div class="field-group">
+              <label for="expenseAmount">Amount</label>
+              <input id="expenseAmount" name="amount" type="number" min="0.01" step="0.01" placeholder="0.00" required />
+            </div>
+
+            <p id="formMessage" class="form-message" aria-live="polite"></p>
+
+            <div class="button-row">
+              <button id="submitBtn" class="primary-btn" type="submit">Save expense</button>
+              <button id="cancelEditBtn" class="secondary-btn hidden" type="button">Cancel</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel records-panel">
+          <div class="panel-header toolbar">
+            <h2>Expense list</h2>
+            <div class="toolbar-controls">
+              <div class="field-inline">
+                <label for="categoryFilter">Filter</label>
+                <select id="categoryFilter">
+                  <option value="All">All categories</option>
+                </select>
+              </div>
+              <div class="field-inline">
+                <label for="sortOrder">Sort</label>
+                <select id="sortOrder">
+                  <option value="date-desc">Newest first</option>
+                  <option value="date-asc">Oldest first</option>
+                  <option value="amount-desc">Highest Amount</option>
+                  <option value="amount-asc">Lowest Amount</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Category</th>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="expenseTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+
+    <script src="BTS.js" defer></script>
+  </body>
+</html>
